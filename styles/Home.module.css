@@ -1,0 +1,11 @@
+.authBackground{
+  color: #fff;
+  height: 100vh;
+}
+.authForm {
+  max-width:300px !important;
+}
+
+.PrimaryButton{
+  background: #553370;
+}
