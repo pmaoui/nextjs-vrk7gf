@@ -19,3 +19,8 @@ a {
 h1, p {
   font-family: Lato;
 }
+
+.loading {
+  display: block !important;
+  opacity: 100 !important;
+}

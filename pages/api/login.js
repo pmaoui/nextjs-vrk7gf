@@ -1,16 +1,37 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-const fetch = require('node-fetch');
+const crypto = require("crypto");
+const jwt = require("jsonwebtoken");
+const { read } = require('../../db')
 
 export default async (req, res) => {
-  // Open Chrome DevTools to step through the debugger!
-  // debugger;
-  if (req.method === 'POST') {
+  if (req.method === "POST") {
     const { email, password } = req.body;
-    const fetchFarmers = await fetch(
-      'https://script.google.com/macros/s/AKfycbxy--a3QcdnKpT6QO0CiSeZTV-3SlqF4sA40eryKO5IT3Uak9dh1bvWcsYMnE2YHNSn/exec?action=read&table=farmers'
-    );
-    const farmers = await fetchFarmers.json();
-    const farmer = farmers.find(f => f.email === email);
-    res.status(200).json(farmer);
+
+    const submittedPassword = crypto
+      .createHash("md5")
+      .update(password)
+      .digest("hex");
+    const { data: farmers } = await read('farmers')
+    const farmer = farmers.find((f) => f.email === email);
+    if (farmer && farmer.password === submittedPassword) {
+      const token = jwt.sign({ email, type: "farmer" }, "bequiet", {
+        expiresIn: 6000,
+      });
+      return res.status(200).json({
+        ...farmer,
+        type: "farmer",
+        token,
+      });
+    }
+    const { data: customers } = await read('customers')
+    const customer = customers.find((f) => f.email === email);
+    if (customer && customer.password === submittedPassword) {
+      const token = jwt.sign({ email, type: "customer" }, "bequiet", {
+        expiresIn: 600,
+      });
+      return res.status(200).json({ ...customer, type: "customer", token });
+    }
+    return res.status(403).json({ error: "Bad access" });
   }
+  return res.status(404).json({ error: "?" });
 };
