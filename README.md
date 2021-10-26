@@ -1,5 +1,7 @@
 # Fruit Place
 
-## Usage
-- `yarn`
-- `yarn dev` or `yarn build && yarn start`
+## Installation
+`yarn`
+
+## Launch
+`yarn dev` or `yarn build && yarn start`
