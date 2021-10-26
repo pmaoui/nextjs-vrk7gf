@@ -84,7 +84,8 @@ export default function Farmers() {
           <h2 style={{ float: "left", marginRight: "10px" }}>Your offer</h2>
           {offer.soldTo ? (
             <p style={{ clear: "left" }}>
-              Congratulations 🎉 ! You have just sold your offer to {offer.soldTo}
+              Congratulations 🎉 ! You have just sold your offer to{" "}
+              {offer.soldTo}
             </p>
           ) : (
             <Button icon onClick={deleteOffer}>

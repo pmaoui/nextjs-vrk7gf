@@ -99,8 +99,7 @@ export default function Home() {
               </a>
             </strong>
             <i>
-              <br />
-              ￫ Feel free to add/delete/edit anything on it
+              <br />￫ Feel free to add/delete/edit anything on it
             </i>
           </p>
         </Message>

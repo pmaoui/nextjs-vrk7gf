@@ -1,12 +1,12 @@
 const jwt = require("jsonwebtoken");
-const { read } = require('../../db')
+const { read } = require("../../db");
 
 export default async (req, res) => {
   if (req.method === "GET") {
     try {
       const token = req.headers.authorization.split("Bearer ")[1];
       const { email } = jwt.verify(token, "bequiet");
-      const { data: offers } = await read('offers')
+      const { data: offers } = await read("offers");
       const offer = offers.find((o) => o.email === email) || {};
       return res.status(200).json({ offer });
     } catch (e) {
